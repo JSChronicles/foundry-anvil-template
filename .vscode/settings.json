@@ -1,0 +1,42 @@
+{
+  // Global settings
+  "workbench.colorTheme": "Dark Modern",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.minimap.enabled": false,
+
+  // Python language analysis settings
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+
+  // Per-language Python formatting & linting
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+
+  // YAML schema associations for organization and explicit-account configs
+  "yaml.schemas": {
+    "./schemas/orgs.schema.v1.json": [
+      "yaml/*.yaml",
+      "yaml/*.yml",
+      "examples/01-*.yaml",
+      "examples/01-*.yml",
+      "examples/02-*.yaml",
+      "examples/02-*.yml"
+    ],
+    "./schemas/accounts.schema.v1.json": [
+      "examples/03-*.yaml",
+      "examples/03-*.yml"
+    ]
+  },
+
+  "yaml.validate": true,
+  "yaml.hover": true,
+  "yaml.completion": true
+
+}
