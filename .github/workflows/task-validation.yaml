@@ -28,9 +28,6 @@ jobs:
       - name: Install the project
         run: uv sync --all-groups
 
-      - name: Build package
-        run: uv build
-
       - name: Smoke test CLI entrypoint
         run: |
           uv run anvil --help
