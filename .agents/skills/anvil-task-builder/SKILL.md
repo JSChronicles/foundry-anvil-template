@@ -10,22 +10,21 @@ safely in dry-run mode, and validate through Anvil's task discovery path.
 
 ## Workflow
 
-1. Treat this repository as a project-local task template.
+1. Decide whether the task is a stock task or plugin task.
 1. Create or edit the task module.
 1. Implement the Anvil `run()` contract.
 1. Follow Anvil task conventions for dry-run behavior, logging, actions, and
    returned data.
 1. Apply normal Python and AWS implementation hygiene.
 1. Add or update YAML examples that reference the task.
-1. Keep `yaml/noop.yaml` working as the smallest smoke-test config.
 1. Run `uv run anvil tasks validate`.
 
 ## Anvil Runtime Contract
 
-In this repository, add task modules under the top-level `tasks/` package:
+For stock tasks in this repository, add modules under:
 
 ```text
-tasks/<task_name>.py
+src/anvil/tasks/<task_name>.py
 ```
 
 The YAML task name must match the module filename:
@@ -35,24 +34,17 @@ tasks:
   - name: count_vpc
 ```
 
-This template exposes project-local tasks through `pyproject.toml`:
+For project-local or plugin tasks, expose the task package through the plugin
+project's `pyproject.toml`:
 
 ```toml
 [project.entry-points."anvil.tasks"]
-foundry_anvil_template = "tasks"
+project = "tasks"
 ```
 
 Anvil discovers modules inside packages registered in the `anvil.tasks`
 entry-point group. Directories named `tasks/` are conventional only; they are
 not automatically scanned unless registered.
-
-This template installs Anvil from the pinned GitHub dependency declared in
-`pyproject.toml`, so the normal happy path is:
-
-```powershell
-uv sync
-uv run anvil tasks validate
-```
 
 Every task module must define a callable keyword-only `run()` function. Use this
 signature unless nearby code has a stronger local convention:
@@ -296,10 +288,6 @@ organizations:
 Use `depends_on` when task order matters. Use `optional: true` only when failure
 should not fail the account or block dependent work.
 
-In this template, keep `yaml/noop.yaml` as the smallest first-run config for
-auth and engine wiring, then add or expand example YAMLs when custom task
-metadata or dependencies are needed.
-
 ## Validation
 
 After creating or editing a task, run:
@@ -311,17 +299,16 @@ uv run anvil tasks validate
 This validates task discovery and the required `run()` signature without
 executing AWS logic.
 
-If `uv run` cannot build or install the project in the current environment, use
-the system Python only as a lightweight fallback for syntax or import-safe
-checks on local task modules:
+If `uv run` cannot build or install the project in the current environment, and
+dependencies are already available, use this fallback:
 
 ```powershell
-python -m compileall tasks tests
+$env:PYTHONPATH='src'; python -m anvil.cli tasks validate
 ```
 
-For YAML examples, also keep the VS Code schema associations current and run the
-relevant example validations or tests when they exist.
+For YAML examples, also validate the config schema or run the relevant example
+tests. A lightweight schema validation pattern is:
 
-Do not assume this repository contains the Anvil engine source tree under
-`src/anvil`; treat it as a consumer template that installs Anvil as a
-dependency.
+```powershell
+$env:PYTHONPATH='src'; python -c "from pathlib import Path; import yaml; from anvil.validators import validate_config_schema; path=Path('examples/example.yaml'); validate_config_schema(config=yaml.safe_load(path.read_text(encoding='utf-8')) or {})"
+```
