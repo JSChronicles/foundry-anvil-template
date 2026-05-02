@@ -13,8 +13,8 @@ description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  # anvil v0.23.0
-  "anvil @ git+https://github.com/JSChronicles/anvil.git@7b5c69f339ecb6ba006057546e72244c0563bbdc",
+  # anvil v0.23.2
+  "anvil @ git+https://github.com/JSChronicles/anvil.git@af0a568e06b636809f4bc10a19dc4b1e99eb6d65",
 ]
 
 [project.entry-points."anvil.tasks"]

@@ -4,8 +4,8 @@ requires-python = "==3.14.*"
 
 [[package]]
 name = "anvil"
-version = "0.23.0"
-source = { git = "https://github.com/JSChronicles/anvil.git?rev=7b5c69f339ecb6ba006057546e72244c0563bbdc#7b5c69f339ecb6ba006057546e72244c0563bbdc" }
+version = "0.23.2"
+source = { git = "https://github.com/JSChronicles/anvil.git?rev=af0a568e06b636809f4bc10a19dc4b1e99eb6d65#af0a568e06b636809f4bc10a19dc4b1e99eb6d65" }
 dependencies = [
     { name = "boto3" },
     { name = "jsonschema" },
@@ -152,7 +152,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "anvil", git = "https://github.com/JSChronicles/anvil.git?rev=7b5c69f339ecb6ba006057546e72244c0563bbdc" }]
+requires-dist = [{ name = "anvil", git = "https://github.com/JSChronicles/anvil.git?rev=af0a568e06b636809f4bc10a19dc4b1e99eb6d65" }]
 
 [package.metadata.requires-dev]
 dev = [
