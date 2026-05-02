@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
       time: "08:00"
       timezone: "America/Chicago"
     cooldown:
@@ -19,8 +19,7 @@ updates:
         patterns:
           - "*"
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: "chore(uv)"
     labels:
       - "dependencies"
       - "python"
@@ -29,7 +28,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
       time: "08:00"
       timezone: "America/Chicago"
     cooldown:
@@ -40,8 +39,7 @@ updates:
         patterns:
           - "*"
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: "chore(github-actions)"
     labels:
       - "dependencies"
       - "github-actions"
@@ -50,7 +48,7 @@ updates:
   - package-ecosystem: "pre-commit"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
       time: "08:00"
       timezone: "America/Chicago"
     cooldown:
@@ -61,8 +59,7 @@ updates:
         patterns:
           - "*"
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: "chore(pre-commit)"
     labels:
       - "dependencies"
       - "pre-commit"
