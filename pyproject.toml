@@ -8,13 +8,13 @@ module-root = ""
 
 [project]
 name = "foundry-anvil-template"
-version = "0.1.0"
+version = "0.3.0"
 description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  # anvil v0.23.2
-  "anvil @ git+https://github.com/JSChronicles/anvil.git@af0a568e06b636809f4bc10a19dc4b1e99eb6d65",
+  # anvil v0.24.0
+  "anvil @ git+https://github.com/JSChronicles/anvil.git@37be205b9ff88a646c7702c18c525a85f729ca3d",
 ]
 
 [project.entry-points."anvil.tasks"]
