@@ -39,12 +39,13 @@ Use this template when you want a repo that can:
 - validate task discovery quickly with a noop config
 - give other teams a predictable layout for YAML, examples, docs, and CI wiring
 
-If you want the deeper explanation of how Anvil itself works, see [docs/README.md](docs/README.md).
+For more, see the [documentation](https://opsfoundry.dev/).
 
 
 ## Usage
 ### Quick start
 
+1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 1. Create the environment and install this template project:
    1. `uv sync`
 1. Update [`yaml/noop.yaml`](./yaml/noop.yaml):
