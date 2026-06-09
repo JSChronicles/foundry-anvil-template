@@ -59,8 +59,8 @@ For more, see the [documentation](https://opsfoundry.dev/).
    1. Set `regions`
    1. Set `role_name` if your member-account role differs
 1. Validate that Anvil can discover tasks and processors:
-   1. `uv run anvil tasks list`
-   1. `uv run anvil processors list`
+   1. `uv run anvil list --tasks`
+   1. `uv run anvil list --processors`
 1. Run the starter config:
    1. `uv run anvil run --config-file .\yaml\noop.yaml --dry-run`
 

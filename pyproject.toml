@@ -3,18 +3,18 @@ requires = ["uv_build>=0.11.16,<0.14"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "tasks"
+module-name = ["tasks", "processors"]
 module-root = ""
 
 [project]
 name = "foundry-anvil-template"
-version = "0.4.0"
+version = "0.5.0"
 description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  # anvil v0.25.0
-  "anvil @ git+https://github.com/JSChronicles/anvil.git@3d60bb2ae8b3495d31a2e458eba7006d393659d8",
+  # anvil v0.28.0
+  "anvil @ git+https://github.com/JSChronicles/anvil.git@d9e1733344fefad58f268649afe6df7cd13099f3",
 ]
 
 [project.entry-points."anvil.tasks"]
