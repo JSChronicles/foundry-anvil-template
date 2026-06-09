@@ -3,74 +3,40 @@ requires = ["uv_build>=0.11.17,<0.14"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "tasks"
+module-name = ["tasks", "processors"]
 module-root = ""
 
 [project]
 name = "foundry-anvil-template"
-version = "0.4.0"
+version = "0.5.0"
 description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  # anvil v0.25.0
-  "anvil @ git+https://github.com/JSChronicles/anvil.git@3d60bb2ae8b3495d31a2e458eba7006d393659d8",
+  # anvil v0.28.0
+  "anvil @ git+https://github.com/JSChronicles/anvil.git@d9e1733344fefad58f268649afe6df7cd13099f3",
 ]
 
 [project.entry-points."anvil.tasks"]
 foundry_anvil_template = "tasks"
+
+[project.entry-points."anvil.processors"]
+foundry_anvil_template = "processors"
 
 [dependency-groups]
 dev = [
   "prek>=0.4.3,<0.5.0",
   "check-jsonschema>=0.37.2,<0.40.0",
   "ruff>=0.15.15,<0.20.0",
+  "ty>=0.0.40,<0.20.0",
 ]
 
 [tool.ruff]
-# https://docs.astral.sh/ruff/settings/
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
-    ".ipynb_checkpoints",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pyenv",
-    ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    ".vscode",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "site-packages",
-    "venv",
-]
-line-length = 88
-indent-width = 4
 target-version = "py314"
 
 [tool.ruff.lint]
 select = ["N", "E4", "E7", "E9", "F"]
-ignore = []
 task-tags = ["TODO", "FIXME", "HACK"]
-fixable = ["ALL"]
-unfixable = []
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
 skip-magic-trailing-comma = true
-line-ending = "auto"

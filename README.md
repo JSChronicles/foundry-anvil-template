@@ -27,17 +27,23 @@
 </div>
 
 ## Introduction
-This repository is a consumer starter for Anvil, not the [Anvil engine source](https://github.com/JSChronicles/anvil) itself. It gives you:
-- a project-local `tasks/` package already registered through the `anvil.tasks` entry-point group
-- a starter task at [`tasks/project_check.py`](./tasks/project_check.py)
-- a starter config at [`yaml/noop.yaml`](./yaml/noop.yaml)
-- example configs and GitHub Actions workflows you can adapt for your own environments
+> [!NOTE]
+> This template pins Anvil directly from GitHub because it is not published to PyPI yet.
+
+This repository is a consumer starter for Anvil, not the [Anvil engine source](https://github.com/JSChronicles/anvil) itself. It provides:
+
+- Starter directories for:
+  - [yaml](./yaml/) - Configuration files Anvil uses to run tasks and processors across accounts.
+  - [tasks](./tasks/) - Custom tasks that run across your AWS accounts and organizations.
+  - [processors](./processors/) - Post-run processors that read Anvil result data and generate follow-up artifacts such as reports, summaries, or findings.
+- Registered entry-point groups for both tasks and processors.
+- Example GitHub Actions workflows you can adapt for your own environments.
 
 Use this template when you want a repo that can:
-- install Anvil directly from your GitHub repository
-- expose project-local tasks without forking Anvil
-- validate task discovery quickly with a noop config
-- give other teams a predictable layout for YAML, examples, docs, and CI wiring
+- Install Anvil directly from your GitHub repository
+- Expose project-local tasks and processors without forking Anvil
+- Validate task discovery quickly with a noop config
+- Give other teams a predictable layout for YAML, examples, docs, and CI wiring
 
 For more, see the [documentation](https://opsfoundry.dev/).
 
@@ -52,26 +58,15 @@ For more, see the [documentation](https://opsfoundry.dev/).
    1. Set `profile`
    1. Set `regions`
    1. Set `role_name` if your member-account role differs
-1. Validate that Anvil can discover the shipped starter task:
-   1. `uv run anvil tasks list`
-   1. `uv run anvil tasks validate`
+1. Validate that Anvil can discover tasks and processors:
+   1. `uv run anvil list --tasks`
+   1. `uv run anvil list --processors`
 1. Run the starter config:
    1. `uv run anvil run --config-file .\yaml\noop.yaml --dry-run`
 
-The shipped `noop` config is the smallest first run for validating auth, discovery, and result output before you switch over to custom tasks. `yaml/noop.yaml` is the smallest config you use to prove that Anvil is wired correctly before building larger multi-org workflows.
-
-This template pins Anvil directly from GitHub because it is not published to PyPI yet.
+The shipped `noop` config is the smallest first run for validating auth, discovery, and result output before you switch over to custom tasks. It can be used to prove that Anvil is wired correctly before building larger multi-org workflows.
 
 ### Examples
-
-Start with the curated examples in this repository:
-- [`examples/01-single-org-explicit-profile.yaml`](./examples/01-single-org-explicit-profile.yaml)
-- [`examples/02-complete-org-reference.yaml`](./examples/02-complete-org-reference.yaml)
-- [`examples/03-complete-account-reference.yaml`](./examples/03-complete-account-reference.yaml)
-- [`examples/github-actions`](./examples/github-actions/README.md)
-
-These are the examples that should stay aligned with the template repo's intended consumer experience.
-
 For broader or deeper Anvil examples that live with the engine source, see the Anvil source repository examples:
 - [JSChronicles/anvil examples](https://github.com/JSChronicles/anvil/tree/main/examples)
 

@@ -36,4 +36,5 @@ jobs:
       - name: Smoke test CLI entrypoint
         run: |
           uv run anvil --help
-          uv run anvil tasks validate
+          uv run anvil validate --tasks
+          uv run anvil validate --processors
