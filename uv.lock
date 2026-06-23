@@ -4,8 +4,8 @@ requires-python = "==3.14.*"
 
 [[package]]
 name = "anvil"
-version = "0.28.0"
-source = { git = "https://github.com/JSChronicles/anvil.git?rev=d9e1733344fefad58f268649afe6df7cd13099f3#d9e1733344fefad58f268649afe6df7cd13099f3" }
+version = "0.29.2"
+source = { git = "https://github.com/JSChronicles/anvil.git?rev=af554cfc9513171f1684ab7bb2d924986b8399fd#af554cfc9513171f1684ab7bb2d924986b8399fd" }
 dependencies = [
     { name = "boto3" },
     { name = "jsonschema" },
@@ -138,7 +138,7 @@ wheels = [
 
 [[package]]
 name = "foundry-anvil-template"
-version = "0.5.0"
+version = "0.6.2"
 source = { editable = "." }
 dependencies = [
     { name = "anvil" },
@@ -153,7 +153,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "anvil", git = "https://github.com/JSChronicles/anvil.git?rev=d9e1733344fefad58f268649afe6df7cd13099f3" }]
+requires-dist = [{ name = "anvil", git = "https://github.com/JSChronicles/anvil.git?rev=af554cfc9513171f1684ab7bb2d924986b8399fd" }]
 
 [package.metadata.requires-dev]
 dev = [
