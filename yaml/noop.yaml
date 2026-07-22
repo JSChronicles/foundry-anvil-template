@@ -1,16 +1,20 @@
 # Starter Anvil configuration for this template repository.
 #
-# Edit the profile, regions, role_name, and optional metadata for your environment,
-# then validate task discovery and run a dry-run.
+# Edit provider.options, regions, and optional metadata for your environment,
+# then validate the configuration and run a dry-run.
 
-schema_version: 1
+schema_version: 2
 
-organizations:
+targets:
   - name: starter-org
-    profile: my-aws-profile
+    provider:
+      name: aws
+      mode: organization
+      options:
+        profile: my-aws-profile
+        role_name: OrganizationAccountAccessRole
     regions:
       - us-east-1
-    role_name: OrganizationAccountAccessRole
     max_workers: 10
     dry_run: true
     tasks:
