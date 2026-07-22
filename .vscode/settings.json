@@ -19,19 +19,13 @@
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
 
-  // YAML schema associations for organization and explicit-account configs
+  // YAML schema associations for Anvil schema-v2 target configs
   "yaml.schemas": {
-    "./schemas/orgs.schema.v1.json": [
+    "./schemas/targets.schema.v2.json": [
       "yaml/*.yaml",
       "yaml/*.yml",
-      "examples/01-*.yaml",
-      "examples/01-*.yml",
-      "examples/02-*.yaml",
-      "examples/02-*.yml"
-    ],
-    "./schemas/accounts.schema.v1.json": [
-      "examples/03-*.yaml",
-      "examples/03-*.yml"
+      "examples/github-actions/noop-*.yaml",
+      "examples/github-actions/noop-*.yml"
     ]
   },
 

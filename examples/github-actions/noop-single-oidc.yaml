@@ -1,11 +1,15 @@
-schema_version: 1
+schema_version: 2
 max_parallel_targets: 1
 
-organizations:
+targets:
   - name: single-oidc-org
+    provider:
+      name: aws
+      mode: organization
+      options:
+        role_name: OrganizationAccountAccessRole
     regions:
       - us-east-1
-    role_name: OrganizationAccountAccessRole
     max_workers: 10
     fail_fast: false
     dry_run: true
