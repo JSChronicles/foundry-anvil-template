@@ -7,13 +7,14 @@
 [![ruff][ruff-badge]][ruff-url]
 [![prek][prek-badge]][prek-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="images/logo.png" alt="Logo" width="256" height="256">
-  </a>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="images/anvil-logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="images/anvil-logo-light.png">
+    <img src="images/anvil-logo-light.png" alt="Anvil logo" width="236">
+  </picture>
 
   <h3 align="center">README</h3>
 
@@ -33,17 +34,17 @@
 This repository is a consumer starter for Anvil, not the [Anvil engine source](https://github.com/JSChronicles/anvil) itself. It provides:
 
 - Starter directories for:
-  - [yaml](./yaml/) - Configuration files Anvil uses to run tasks and processors across accounts.
-  - [tasks](./tasks/) - Custom tasks that run across your AWS accounts and organizations.
-  - [processors](./processors/) - Post-run processors that read Anvil result data and generate follow-up artifacts such as reports, summaries, or findings.
+- [`yaml`](./yaml/) for schema-v2 Anvil target configurations.
+- [`tasks`](./tasks/) for universal, AWS, Azure, GCP, and GitHub project-local tasks registered through provider-owned entry points.
+- [`processors`](./processors/) for post-run processors that create reports, summaries, or findings from Anvil results.
 - Registered entry-point groups for both tasks and processors.
 - Example GitHub Actions workflows you can adapt for your own environments.
 
 Use this template when you want a repo that can:
-- Install Anvil directly from your GitHub repository
-- Expose project-local tasks and processors without forking Anvil
-- Validate task discovery quickly with a noop config
-- Give other teams a predictable layout for YAML, examples, docs, and CI wiring
+- Install a pinned Anvil release directly from GitHub.
+- Expose project-local tasks and processors without forking Anvil.
+- Validate task, processor, and YAML discovery in CI.
+- Provide teams with a predictable layout for configurations, extensions, documentation, and workflows.
 
 For more, see the [documentation](https://opsfoundry.dev/).
 
@@ -52,8 +53,7 @@ For more, see the [documentation](https://opsfoundry.dev/).
 ### Quick start
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-1. Create the environment and install this template project:
-   1. `uv sync`
+1. Create the environment and install this template project: `uv sync`
 1. Update [`yaml/noop.yaml`](./yaml/noop.yaml):
    1. Set `profile`
    1. Set `regions`
