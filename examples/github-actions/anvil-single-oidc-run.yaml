@@ -85,7 +85,7 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: Validate task discovery
-        run: uv run anvil tasks validate --log-level "${ANVIL_LOG_LEVEL}"
+        run: uv run anvil validate --tasks --log-level "${ANVIL_LOG_LEVEL}"
 
       - name: Run Anvil
         run: |
@@ -111,7 +111,9 @@ jobs:
             common_args+=(--exclude "${exclude_accounts[@]}")
           fi
 
-          uv run anvil auth check "${common_args[@]}"
+          uv run anvil validate --auth \
+            --config-file "${ANVIL_CONFIG_FILE}" \
+            --log-level "${ANVIL_LOG_LEVEL}"
 
           run_args=("${common_args[@]}")
           if [ "${ANVIL_DRY_RUN}" = "true" ]; then
@@ -125,6 +127,6 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: anvil-results-single-oidc-${{ github.run_id }}-${{ github.run_attempt }}
-          path: results/**/*.json
+          path: results/**/*
           if-no-files-found: warn
           retention-days: 30

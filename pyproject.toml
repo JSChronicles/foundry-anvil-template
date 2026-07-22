@@ -13,12 +13,24 @@ description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  # anvil v0.29.2
-  "anvil @ git+https://github.com/JSChronicles/anvil.git@af554cfc9513171f1684ab7bb2d924986b8399fd",
+  # anvil v0.30.0
+  "anvil @ git+https://github.com/JSChronicles/anvil.git@426867e6d3916ffb099a8d04fbbcb32f91eb2eb7",
 ]
 
-[project.entry-points."anvil.tasks"]
-foundry_anvil_template = "tasks"
+[project.entry-points."anvil.providers.tasks"]
+foundry_anvil_template = "tasks.universal"
+
+[project.entry-points."anvil.providers.aws.tasks"]
+foundry_anvil_template = "tasks.aws"
+
+[project.entry-points."anvil.providers.azure.tasks"]
+foundry_anvil_template = "tasks.azure"
+
+[project.entry-points."anvil.providers.gcp.tasks"]
+foundry_anvil_template = "tasks.gcp"
+
+[project.entry-points."anvil.providers.github.tasks"]
+foundry_anvil_template = "tasks.github"
 
 [project.entry-points."anvil.processors"]
 foundry_anvil_template = "processors"
