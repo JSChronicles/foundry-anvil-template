@@ -1,5 +1,5 @@
 [build-system]
-requires = ["uv_build>=0.11.32,<0.14"]
+requires = ["uv_build>=0.12.1,<0.14"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
@@ -39,8 +39,8 @@ foundry_anvil_template = "processors"
 dev = [
   "prek>=0.4.11,<0.5.0",
   "check-jsonschema>=0.37.4,<0.40.0",
-  "ruff>=0.16.0,<0.20.0",
-  "ty>=0.0.63,<0.20.0",
+  "ruff>=0.16.1,<0.20.0",
+  "ty>=0.0.65,<0.20.0",
 ]
 
 [tool.ruff]
