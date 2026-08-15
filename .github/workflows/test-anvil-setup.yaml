@@ -1,0 +1,39 @@
+name: Test setup-anvil
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Anvil
+        id: setup-anvil
+        uses: JSChronicles/setup-anvil@e33190eb87cf045e44936f7e1af2b30e9134d39a
+
+      - name: Verify setup
+        shell: bash
+        env:
+          ANVIL_VERSION: ${{ steps.setup-anvil.outputs.anvil-version }}
+        run: |
+          echo "Installed Anvil ${ANVIL_VERSION}"
+          anvil list --tasks
+          anvil list --processors
+
+      - name: Validate template
+        run: anvil validate --config-file anvil.yaml
