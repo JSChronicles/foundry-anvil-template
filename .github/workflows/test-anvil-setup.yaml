@@ -32,4 +32,3 @@ jobs:
           echo "Installed Anvil ${ANVIL_VERSION}"
           anvil list --tasks
           anvil list --processors
-
