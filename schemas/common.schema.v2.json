@@ -6,29 +6,132 @@
   "$defs": {
     "taskEntry": {
       "type": "object",
+      "description": "One configured invocation of a discovered Python task component.",
+      "examples": [
+        {
+          "id": "detach_guardrails",
+          "name": "reconcile_config_guardrails",
+          "metadata": {
+            "attachment_state": "absent"
+          }
+        }
+      ],
       "required": [
         "name"
       ],
       "additionalProperties": false,
       "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique invocation ID for this configured task. When omitted, the discovered component name is used.",
+          "examples": [
+            "detach_guardrails"
+          ]
+        },
         "name": {
           "type": "string",
           "minLength": 1,
-          "description": "Task name (must match task module filename)."
+          "description": "Discovered Python task component name.",
+          "examples": [
+            "reconcile_config_guardrails"
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": true,
+          "description": "Static operator-configured context merged over target metadata for this invocation.",
+          "examples": [
+            {
+              "attachment_state": "absent"
+            }
+          ]
         },
         "depends_on": {
           "type": "array",
+          "default": [],
           "items": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "description": "Effective task invocation ID that must reach a terminal state first.",
+            "examples": [
+              "detach_guardrails"
+            ]
           },
           "uniqueItems": true,
-          "description": "List of task names that must complete before this task runs."
+          "description": "Effective task invocation IDs that control ordering, eligibility, and dependency-data availability.",
+          "examples": [
+            [
+              "detach_guardrails",
+              "cleanup_config"
+            ]
+          ]
         },
-        "optional": {
+        "always_run": {
           "type": "boolean",
           "default": false,
-          "description": "If true, task failure does not fail the account or block dependent tasks."
+          "description": "If true, run after every dependency reaches a terminal state even when a dependency was unsuccessful.",
+          "examples": [
+            true
+          ]
+        },
+        "dependency_data": {
+          "type": "object",
+          "default": {},
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Non-empty local input name chosen by the consuming task.",
+            "examples": [
+              "attachments"
+            ]
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/dependencyDataReference"
+          },
+          "description": "Runtime inputs selected from directly declared dependency TaskResults.",
+          "examples": [
+            {
+              "attachments": {
+                "task_id": "detach_guardrails",
+                "path": "result.attachments"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "dependencyDataReference": {
+      "type": "object",
+      "required": [
+        "task_id"
+      ],
+      "additionalProperties": false,
+      "description": "Selection of a complete dependency TaskResult or one readable dotted path within it.",
+      "examples": [
+        {
+          "task_id": "detach_guardrails",
+          "path": "result.attachments"
+        }
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Effective ID of a task also listed directly in the consumer's depends_on.",
+          "examples": [
+            "detach_guardrails"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:result(?:\\.[A-Za-z_][A-Za-z0-9_]*)*|status|error|actions)$",
+          "description": "Optional dotted selection: result, nested result fields, status, error, or actions. List indexing is not supported.",
+          "examples": [
+            "result.attachments",
+            "status"
+          ]
         }
       }
     },
@@ -62,39 +165,15 @@
         }
       }
     },
-    "profile": {
-      "anyOf": [
-        {
-          "type": "string",
-          "minLength": 1
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "Provider profile for the source authentication context when used under provider.options."
-    },
     "regions": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "description": "Provider regions/locations for task execution. AWS organization configs also support the 'all' selector and glob selectors.",
+      "description": "Provider regions or locations for task execution.",
       "items": {
         "type": "string",
         "minLength": 1
       }
-    },
-    "role_name": {
-      "anyOf": [
-        {
-          "type": "string",
-          "minLength": 1
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "Optional AWS IAM role name to assume in target accounts when used under provider.options. AWS organizations default to OrganizationAccountAccessRole at runtime; AWS accounts run directly when omitted."
     },
     "tasks": {
       "type": "array",
@@ -145,161 +224,6 @@
       "additionalProperties": true,
       "description": "Free-form metadata for execution context."
     },
-    "provider": {
-      "type": "string",
-      "enum": [
-        "aws",
-        "azure",
-        "gcp",
-        "github"
-      ],
-      "default": "aws",
-      "description": "Cloud provider for this target. Provider name is required under provider.name."
-    },
-    "mode": {
-      "type": "string",
-      "enum": [
-        "organization",
-        "accounts",
-        "tenant",
-        "subscriptions",
-        "projects",
-        "organizations",
-        "repositories"
-      ],
-      "description": "Provider-specific target mode. Provider mode is required under provider.mode."
-    },
-    "awsProviderOptions": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "profile": {
-          "$ref": "#/$defs/profile"
-        },
-        "role_name": {
-          "$ref": "#/$defs/role_name"
-        }
-      }
-    },
-    "azureProviderOptions": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "tenant_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "client_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "client_secret": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
-    },
-    "gcpProviderOptions": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "credentials_path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "organization_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "quota_project_id": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
-    },
-    "githubProviderOptions": {
-      "type": "object",
-      "additionalProperties": false,
-      "allOf": [
-        {
-          "not": {
-            "required": [
-              "profile",
-              "api_url"
-            ]
-          }
-        },
-        {
-          "not": {
-            "required": [
-              "profile",
-              "api_version"
-            ]
-          }
-        },
-        {
-          "not": {
-            "required": [
-              "profile",
-              "token_env"
-            ]
-          }
-        },
-        {
-          "not": {
-            "required": [
-              "profile",
-              "app_id"
-            ]
-          }
-        },
-        {
-          "not": {
-            "required": [
-              "profile",
-              "private_key_env"
-            ]
-          }
-        },
-        {
-          "not": {
-            "required": [
-              "profile",
-              "private_key_path"
-            ]
-          }
-        }
-      ],
-      "properties": {
-        "profile": {
-          "$ref": "#/$defs/profile"
-        },
-        "api_url": {
-          "type": "string",
-          "minLength": 1
-        },
-        "api_version": {
-          "type": "string",
-          "minLength": 1
-        },
-        "token_env": {
-          "type": "string",
-          "minLength": 1
-        },
-        "app_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "private_key_env": {
-          "type": "string",
-          "minLength": 1
-        },
-        "private_key_path": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
-    },
     "post_run": {
       "type": "array",
       "minItems": 1,
@@ -307,15 +231,6 @@
       "items": {
         "$ref": "#/$defs/postRunEntry"
       }
-    },
-    "accountIdList": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string",
-        "pattern": "^[0-9]{12}$"
-      },
-      "description": "AWS account ID list."
     },
     "targetIdList": {
       "type": "array",
@@ -325,27 +240,7 @@
         "minLength": 1
       },
       "uniqueItems": true,
-      "description": "Provider-specific execution target ID list. AWS uses account IDs, Azure uses subscription IDs, GCP uses project IDs, and GitHub uses organization logins or owner/repo names."
-    },
-    "githubOrganizationList": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string",
-        "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
-      },
-      "uniqueItems": true,
-      "description": "GitHub owner login list. Values may be organization or user logins."
-    },
-    "githubRepositoryList": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string",
-        "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?/[^/\\s]+$"
-      },
-      "uniqueItems": true,
-      "description": "GitHub owner/repo repository list."
+      "description": "Provider-owned execution target IDs or filter keywords."
     },
     "baseTargetProperties": {
       "name": {

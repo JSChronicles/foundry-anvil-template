@@ -22,7 +22,7 @@ jobs:
 
       - name: Set up Anvil
         id: setup-anvil
-        uses: JSChronicles/setup-anvil@b825f588866bd49af091c3f876de2b82a70ba586
+        uses: JSChronicles/setup-anvil@b825f588866bd49af091c3f876de2b82a70ba586 # v0.2.0
 
       - name: Verify setup
         shell: bash
@@ -36,9 +36,3 @@ jobs:
 
       - name: Validate template
         run: anvil validate --config-file yaml/noop.yaml
-
-      - name: Verify stock provider-extra installation
-        run: >
-          anvil validate
-          --providers gcp
-          --config-file yaml/gcp-extra-smoke.yaml
