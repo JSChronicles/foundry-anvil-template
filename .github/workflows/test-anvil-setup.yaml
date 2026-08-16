@@ -36,3 +36,9 @@ jobs:
 
       - name: Validate template
         run: anvil validate --config-file yaml/noop.yaml
+
+      - name: Verify stock provider-extra installation
+        run: >
+          anvil validate
+          --providers gcp
+          --config-file yaml/gcp-extra-smoke.yaml
