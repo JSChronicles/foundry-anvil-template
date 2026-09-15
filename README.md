@@ -28,9 +28,6 @@
 
 ## Introduction
 
-> [!NOTE]
-> This template pins Anvil directly from GitHub because it is not published to PyPI yet.
-
 This repository is a consumer starter for [Anvil](https://github.com/JSChronicles/anvil), not the engine source itself. It provides:
 
 - Starter directories for:
