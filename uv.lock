@@ -4,16 +4,16 @@ requires-python = "==3.14.*"
 
 [[package]]
 name = "anvil"
-version = "0.33.2"
+version = "0.33.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
     { name = "jsonschema" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/68/c4/863ae7d955315e2848c6bee6cd6c8c9bcc8ff72dedd3162e1fbf41d41490/anvil-0.33.2.tar.gz", hash = "sha256:2d33da0ae5bcd550414268a78f562a9eba689e5e2794b81a13c878727ee274c6", size = 171092, upload-time = "2026-08-25T13:19:23.365Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/08/b2b6bce8c2b55ae2b3a5e6cb97a2315dc2cdb78397bfb1f18123f7590c65/anvil-0.33.4.tar.gz", hash = "sha256:22aa01ebff438059300df4a99f61d9f90c213d3eb400997c6019aaa35d7b5706", size = 174260, upload-time = "2026-09-15T15:40:43.49Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/d9/2e63093348a4d8d8027bba9fa3e5e0b1f2e494fb584a7babd693f4a3dff8/anvil-0.33.2-py3-none-any.whl", hash = "sha256:9dc1b953bbab62fd06fc493670be27f250732f254a7af91da086ddc287c35428", size = 241954, upload-time = "2026-08-25T13:19:22.275Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/a0/44b7db10060cb43f756d48e8407a328e6a6d4ce0654580ae51ca637809bc/anvil-0.33.4-py3-none-any.whl", hash = "sha256:4f8c2f96d3073181b7287410f6992bf6334e06e19ebd07734fe8b53c350c54b2", size = 247155, upload-time = "2026-09-15T15:40:42.336Z" },
 ]
 
 [[package]]
@@ -27,30 +27,30 @@ wheels = [
 
 [[package]]
 name = "boto3"
-version = "1.43.53"
+version = "1.43.94"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore" },
     { name = "jmespath" },
     { name = "s3transfer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6c/da/0e90eab875f2eb4b8708fef2c198f2559ed1e451a1016f1cd4fcdcfbfbe3/boto3-1.43.53.tar.gz", hash = "sha256:c80425acab314d7af09609562053f565139e1fe49108eacfcc1601ebfaee235b", size = 112678, upload-time = "2026-07-21T19:28:53.002Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/0f/a1d691e9c51ae5dce5a7394e550d7e36a995494e1c2795ce210d3520b257/boto3-1.43.94.tar.gz", hash = "sha256:aa832d88e85035cebb83f04700c65623328b88fe828ff7ed9539483bd9d608c5", size = 112663, upload-time = "2026-09-14T20:10:05.902Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/27/7e72d25fdde77668b7bd4fa47381192dd2aa64fb77265e4bab786fd9fe2a/boto3-1.43.53-py3-none-any.whl", hash = "sha256:5383e705d8a976a14f23bb8c113c07a396931a019db98fce4cdc68650ec6e4d8", size = 140025, upload-time = "2026-07-21T19:28:50.957Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/7a/046ba99f6bac067e73272930ba806f2860c50495b8f271f5fb2363f69d2b/boto3-1.43.94-py3-none-any.whl", hash = "sha256:2534bf331acd2f448b9cf8317f4eed453c65d9e0b7de254e77c99d390ac57aec", size = 140023, upload-time = "2026-09-14T20:10:03.395Z" },
 ]
 
 [[package]]
 name = "botocore"
-version = "1.43.53"
+version = "1.43.94"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jmespath" },
     { name = "python-dateutil" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/db/6b/ebcefacc4de3cd4f1c449540d86877f76c2f5e586a620831012decbb2b2c/botocore-1.43.53.tar.gz", hash = "sha256:36d93dd8db68ee75f6b61ca9f775161b8168844e4601698701530e6efdded141", size = 15720336, upload-time = "2026-07-21T19:28:41.547Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/5b/5a7cc096db8ddb5f6c221112d5a4a46888d9e38c1f5d5a06ae7e3e0755f2/botocore-1.43.94.tar.gz", hash = "sha256:cb97cedec5fceee3261f7fff75d0b0aa2cf68b32eeb2e8c2649e4657419773a6", size = 16104907, upload-time = "2026-09-14T20:10:00.315Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/dc/e5/1b60e394f0fff97ee70dd16913382b7dffda85b98e639c0c9e8ff56cfaa7/botocore-1.43.53-py3-none-any.whl", hash = "sha256:b7ee9a70d187e5348883c820990ccd9436ab14e2bd6622741fc96fe561e816b8", size = 15404628, upload-time = "2026-07-21T19:28:37.475Z" },
+    { url = "https://files.pythonhosted.org/packages/04/6b/d5b5c06677fec26378197a7c37c2fc6afd1fe640c55512d8e96c87c4dd42/botocore-1.43.94-py3-none-any.whl", hash = "sha256:1dfb86603a87fdaebda2540db56aef5b226ec58ab72c13ca56737e4d66dea9ab", size = 15797479, upload-time = "2026-09-14T20:09:56.837Z" },
 ]
 
 [[package]]
@@ -142,7 +142,7 @@ wheels = [
 
 [[package]]
 name = "foundry-anvil-template"
-version = "0.6.3"
+version = "0.6.4"
 source = { editable = "." }
 dependencies = [
     { name = "anvil" },
@@ -157,7 +157,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "anvil", specifier = ">=0.33.1,<0.40.0" }]
+requires-dist = [{ name = "anvil", specifier = ">=0.33.4,<0.40.0" }]
 
 [package.metadata.requires-dev]
 dev = [
