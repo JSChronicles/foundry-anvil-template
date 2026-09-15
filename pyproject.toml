@@ -1,5 +1,5 @@
 [build-system]
-requires = ["uv_build>=0.12.3,<0.14"]
+requires = ["uv_build>=0.12.15,<0.14"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
@@ -8,12 +8,12 @@ module-root = ""
 
 [project]
 name = "foundry-anvil-template"
-version = "0.6.3"
+version = "0.6.4"
 description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
 dependencies = [
-  "anvil>=0.33.1,<0.40.0"
+  "anvil>=0.33.4,<0.40.0"
 ]
 
 [project.entry-points."anvil.providers.tasks"]
