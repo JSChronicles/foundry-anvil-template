@@ -1,0 +1,165 @@
+name: Update Anvil toolchain
+
+on:
+  repository_dispatch:
+    types:
+      - setup_anvil_released
+  workflow_dispatch:
+    inputs:
+      anvil_version:
+        description: Anvil version without the v prefix
+        required: true
+        type: string
+      setup_sha:
+        description: Full commit SHA for the setup-anvil release
+        required: true
+        type: string
+      setup_tag:
+        description: setup-anvil release tag, such as v0.2.1
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-anvil-toolchain
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read release metadata
+        id: release
+        env:
+          DISPATCH_ANVIL_VERSION: ${{ github.event.client_payload.anvil_version }}
+          DISPATCH_SETUP_SHA: ${{ github.event.client_payload.setup_sha }}
+          DISPATCH_SETUP_TAG: ${{ github.event.client_payload.setup_tag }}
+          INPUT_ANVIL_VERSION: ${{ inputs.anvil_version }}
+          INPUT_SETUP_SHA: ${{ inputs.setup_sha }}
+          INPUT_SETUP_TAG: ${{ inputs.setup_tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          anvil_version="${DISPATCH_ANVIL_VERSION:-$INPUT_ANVIL_VERSION}"
+          setup_sha="${DISPATCH_SETUP_SHA:-$INPUT_SETUP_SHA}"
+          setup_tag="${DISPATCH_SETUP_TAG:-$INPUT_SETUP_TAG}"
+
+          if ! [[ "$anvil_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Anvil version '$anvil_version' is not a stable semantic version"
+            exit 1
+          fi
+          if ! [[ "$setup_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::setup-anvil tag '$setup_tag' is not a stable semantic version"
+            exit 1
+          fi
+          if ! [[ "$setup_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::setup-anvil SHA is not a full commit SHA"
+            exit 1
+          fi
+
+          echo "anvil_version=$anvil_version" >> "$GITHUB_OUTPUT"
+          echo "setup_sha=$setup_sha" >> "$GITHUB_OUTPUT"
+          echo "setup_tag=$setup_tag" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.PYTHON_RELEASE_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.PYTHON_RELEASE_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: foundry-anvil-template
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+
+      - name: Update dependency and action pin
+        env:
+          ANVIL_VERSION: ${{ steps.release.outputs.anvil_version }}
+          SETUP_SHA: ${{ steps.release.outputs.setup_sha }}
+          SETUP_TAG: ${{ steps.release.outputs.setup_tag }}
+        run: >-
+          node scripts/update-anvil-toolchain.mjs
+          "$ANVIL_VERSION"
+          "$SETUP_TAG"
+          "$SETUP_SHA"
+
+      - name: Update lockfile
+        env:
+          UV_CACHE_DIR: ./.uv-cache
+        run: uv lock --upgrade-package anvil
+
+      - name: Validate updated project
+        env:
+          UV_CACHE_DIR: ./.uv-cache
+        run: |
+          uv sync --all-groups
+          uv run ruff check tasks processors
+          uv run anvil validate --tasks --processors --providers --quiet
+          uv run anvil validate --config-file yaml/noop.yaml --quiet
+
+      - name: Create or update pull request
+        env:
+          ANVIL_VERSION: ${{ steps.release.outputs.anvil_version }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          SETUP_SHA: ${{ steps.release.outputs.setup_sha }}
+          SETUP_TAG: ${{ steps.release.outputs.setup_tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          branch="automation/update-anvil-toolchain"
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add pyproject.toml uv.lock .github/workflows/test-anvil-setup.yaml
+
+          if git diff --cached --quiet; then
+            echo "The template already uses Anvil ${ANVIL_VERSION} and setup-anvil ${SETUP_TAG}."
+            exit 0
+          fi
+
+          git commit -m "chore(deps): update Anvil toolchain to ${ANVIL_VERSION}"
+          git push --force origin "HEAD:refs/heads/${branch}"
+
+          body=$(cat <<EOF
+          Updates the template to the Anvil toolchain tested by setup-anvil ${SETUP_TAG}.
+
+          - Anvil dependency floor: \`${ANVIL_VERSION}\`
+          - setup-anvil release: \`${SETUP_TAG}\`
+          - setup-anvil commit: \`${SETUP_SHA}\`
+          - Refreshes \`uv.lock\` and runs task, processor, provider, and config validation
+
+          This pull request was generated only after the setup-anvil release was published.
+          EOF
+          )
+
+          number=$(gh pr list \
+            --head "$branch" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')
+          if [[ -n "$number" ]]; then
+            gh pr edit "$number" \
+              --title "chore(deps): update Anvil toolchain to ${ANVIL_VERSION}" \
+              --body "$body"
+          else
+            gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "chore(deps): update Anvil toolchain to ${ANVIL_VERSION}" \
+              --body "$body" \
+              --label dependencies
+          fi
