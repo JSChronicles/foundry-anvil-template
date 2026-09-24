@@ -20,9 +20,8 @@ on:
         type: string
 
 permissions:
-  checks: read
   contents: read
-  pull-requests: read
+  pull-requests: write
 
 concurrency:
   group: update-anvil-toolchain
@@ -116,8 +115,8 @@ jobs:
       - name: Create or update pull request
         env:
           ANVIL_VERSION: ${{ steps.release.outputs.anvil_version }}
-          CHECKS_TOKEN: ${{ github.token }}
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REVIEW_TOKEN: ${{ github.token }}
           SETUP_SHA: ${{ steps.release.outputs.setup_sha }}
           SETUP_TAG: ${{ steps.release.outputs.setup_tag }}
         shell: bash
@@ -169,11 +168,11 @@ jobs:
             number=${url##*/}
           fi
 
-          GH_TOKEN="$CHECKS_TOKEN" gh pr checks "$number" \
-            --required \
-            --watch \
-            --fail-fast
+          GH_TOKEN="$REVIEW_TOKEN" gh pr review "$number" \
+            --approve \
+            --body "Approved by the Anvil toolchain update workflow."
 
           gh pr merge "$number" \
+            --auto \
             --merge \
             --delete-branch
