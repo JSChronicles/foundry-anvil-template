@@ -4,16 +4,16 @@ requires-python = "==3.14.*"
 
 [[package]]
 name = "anvil"
-version = "0.33.4"
+version = "0.35.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
     { name = "jsonschema" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ba/08/b2b6bce8c2b55ae2b3a5e6cb97a2315dc2cdb78397bfb1f18123f7590c65/anvil-0.33.4.tar.gz", hash = "sha256:22aa01ebff438059300df4a99f61d9f90c213d3eb400997c6019aaa35d7b5706", size = 174260, upload-time = "2026-09-15T15:40:43.49Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/10/9da338f091805bfe025854e9b4425f193486295f5512a5368870cabe7099/anvil-0.35.0.tar.gz", hash = "sha256:9400d16c69b8756b1ada29914f7115e0d65ff374c4b05a355e569d2c52d3fe2b", size = 177510, upload-time = "2026-09-23T15:11:43.373Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/a0/44b7db10060cb43f756d48e8407a328e6a6d4ce0654580ae51ca637809bc/anvil-0.33.4-py3-none-any.whl", hash = "sha256:4f8c2f96d3073181b7287410f6992bf6334e06e19ebd07734fe8b53c350c54b2", size = 247155, upload-time = "2026-09-15T15:40:42.336Z" },
+    { url = "https://files.pythonhosted.org/packages/bf/01/3ad87ee22b69b1e68eb1528b5385f8a5c9d3db498e0ab758b6082da4d01e/anvil-0.35.0-py3-none-any.whl", hash = "sha256:aa029c7f3ec5863de74ff6f951145b8626f751ca4030540686c16165f23178ed", size = 253256, upload-time = "2026-09-23T15:11:42.295Z" },
 ]
 
 [[package]]
@@ -157,7 +157,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "anvil", specifier = ">=0.33.4,<0.40.0" }]
+requires-dist = [{ name = "anvil", specifier = ">=0.35.0,<0.40.0" }]
 
 [package.metadata.requires-dev]
 dev = [
