@@ -157,10 +157,16 @@ jobs:
               --title "chore(deps): update Anvil toolchain to ${ANVIL_VERSION}" \
               --body "$body"
           else
-            gh pr create \
+            url=$(gh pr create \
               --base main \
               --head "$branch" \
               --title "chore(deps): update Anvil toolchain to ${ANVIL_VERSION}" \
               --body "$body" \
-              --label dependencies
+              --label dependencies)
+            number=${url##*/}
           fi
+
+          gh pr merge "$number" \
+            --auto \
+            --merge \
+            --delete-branch
