@@ -22,7 +22,7 @@ jobs:
 
       - name: Set up Anvil
         id: setup-anvil
-        uses: JSChronicles/setup-anvil@2f907e636697b2c165ea30b181e67d33fb5a60d9 # v0.4.1
+        uses: JSChronicles/setup-anvil@03cf7662b5ffee3fdbd4df00b2d1cd5490345451 # v0.4.2
 
       - name: Verify setup
         shell: bash
