@@ -32,9 +32,9 @@ This repository is a consumer starter for [Anvil](https://github.com/JSChronicle
 
 - Starter directories for:
   - [yaml](./yaml/) - Configuration files Anvil uses to run tasks and processors across accounts.
-  - [tasks](./tasks/) - Custom tasks that run across your AWS accounts and organizations.
+  - [tasks](./tasks/) - Universal and provider-specific custom tasks that run across your configured targets.
   - [processors](./processors/) - Post-run processors that read Anvil result data and generate follow-up artifacts such as reports, summaries, or findings.
-- Registered entry-point groups for both tasks and processors.
+- Registered entry-point groups for universal tasks, every built-in provider, and processors.
 - Example GitHub Actions workflows you can adapt for your own environments.
 
 Use this template when you want a repo that can:

@@ -8,7 +8,7 @@ module-root = ""
 
 [project]
 name = "foundry-anvil-template"
-version = "0.6.4"
+version = "0.6.5"
 description = "Starter template for building project-local Anvil tasks"
 readme = "README.md"
 requires-python = ">=3.14,<3.15"
@@ -25,21 +25,33 @@ foundry_anvil_template = "tasks.aws"
 [project.entry-points."anvil.providers.azure.tasks"]
 foundry_anvil_template = "tasks.azure"
 
+[project.entry-points."anvil.providers.cloudflare.tasks"]
+foundry_anvil_template = "tasks.cloudflare"
+
+[project.entry-points."anvil.providers.datadog.tasks"]
+foundry_anvil_template = "tasks.datadog"
+
 [project.entry-points."anvil.providers.gcp.tasks"]
 foundry_anvil_template = "tasks.gcp"
 
 [project.entry-points."anvil.providers.github.tasks"]
 foundry_anvil_template = "tasks.github"
 
+[project.entry-points."anvil.providers.gitlab.tasks"]
+foundry_anvil_template = "tasks.gitlab"
+
+[project.entry-points."anvil.providers.pagerduty.tasks"]
+foundry_anvil_template = "tasks.pagerduty"
+
 [project.entry-points."anvil.processors"]
 foundry_anvil_template = "processors"
 
 [dependency-groups]
 dev = [
-  "prek>=0.4.12,<0.6.0",
-  "check-jsonschema>=0.37.4,<0.40.0",
-  "ruff>=0.16.2,<0.20.0",
-  "ty>=0.0.69,<0.20.0",
+  "prek>=0.5.10,<0.6.0",
+  "check-jsonschema>=0.39.0,<0.40.0",
+  "ruff>=0.17.4,<0.20.0",
+  "ty>=0.0.101,<0.20.0",
 ]
 
 [tool.ruff]
