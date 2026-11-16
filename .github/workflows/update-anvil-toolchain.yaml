@@ -105,12 +105,15 @@ jobs:
 
       - name: Validate updated project
         env:
+          ANVIL_VERSION: ${{ steps.release.outputs.anvil_version }}
           UV_CACHE_DIR: ./.uv-cache
         run: |
           uv sync --all-groups
           uv run ruff check tasks processors
-          uv run anvil validate --tasks --processors --providers --quiet
-          uv run anvil validate --config-file yaml/noop.yaml --quiet
+          uv run --with "anvil[aws]==$ANVIL_VERSION" \
+            anvil validate --tasks --processors --providers
+          uv run --with "anvil[aws]==$ANVIL_VERSION" \
+            anvil validate --config-file yaml/noop.yaml
 
       - name: Create or update pull request
         env:
